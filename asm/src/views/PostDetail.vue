@@ -1,96 +1,64 @@
 <template>
-  <div class="bg-light py-4">
-    <div class="container bg-white p-4 shadow-sm rounded">
-      <div class="row">
+  <div class="container my-4">
+    <!-- TIÊU ĐỀ -->
+    <h2 class="mb-3">
+      Chạy bộ mỗi sáng giúp cơ thể khỏe mạnh hơn
+    </h2>
 
-        <!-- NỘI DUNG BÀI VIẾT -->
-        <div class="col-md-8">
-          <h3 class="fw-bold mb-3">{{ post.title }}</h3>
+    <!-- ẢNH BÀI VIẾT -->
+    <img
+      src="/public/images/chaybo.jpg"
+      class="img-fluid mb-4 rounded"
+      alt="Chạy bộ buổi sáng"
+    />
 
-          <img
-            :src="post.image"
-            class="img-fluid rounded mb-3"
-            style="max-height:400px;object-fit:cover;"
-          />
+    <!-- NỘI DUNG -->
+    <p>
+      Chạy bộ vào buổi sáng là một thói quen tốt giúp tăng cường sức khỏe,
+      cải thiện tinh thần và giúp cơ thể tràn đầy năng lượng cho cả ngày dài.
+      Chỉ cần 20–30 phút mỗi sáng, bạn đã có thể cảm nhận được sự thay đổi tích cực
+      về thể lực và tinh thần.
+    </p>
 
-          <p>{{ post.content }}</p>
-        </div>
+    <p>
+      Ngoài ra, chạy bộ còn giúp cải thiện hệ tim mạch, hỗ trợ giảm cân và
+      nâng cao chất lượng giấc ngủ. Điều quan trọng là duy trì thói quen đều đặn
+      và lựa chọn thời gian, cường độ phù hợp với bản thân.
+    </p>
 
-        <!-- BÌNH LUẬN -->
-        <div class="col-md-4">
-          <h5 class="fw-bold">Bình luận bài viết</h5>
+    <hr />
 
-          <!-- FORM NHẬP BÌNH LUẬN -->
-          <div class="mb-3">
-            <textarea
-              class="form-control mb-2"
-              rows="3"
-              placeholder="Nhập bình luận của bạn"
-              v-model="newComment"
-            ></textarea>
+    <!-- BÌNH LUẬN -->
+    <h5 class="mb-3">💬 Bình luận</h5>
 
-            <button class="btn btn-success w-100" @click="addComment">
-              Gửi bình luận
-            </button>
-          </div>
-
-          <!-- DANH SÁCH BÌNH LUẬN -->
-          <h5 class="fw-bold mb-3">Danh sách bình luận:</h5>
-
-          <ul class="list-unstyled">
-            <li
-              v-for="(comment, index) in comments"
-              :key="index"
-              class="mb-2"
-            >
-              <strong>{{ comment.author }}:</strong>
-              <span> {{ comment.text }}</span>
-            </li>
-
-            <li v-if="comments.length === 0" class="text-muted">
-              Chưa có bình luận nào
-            </li>
-          </ul>
-        </div>
-
-      </div>
+    <div class="mb-3">
+      <textarea
+        class="form-control"
+        rows="3"
+        placeholder="Chia sẻ cảm nhận của bạn..."
+      ></textarea>
+      <button class="btn btn-primary btn-sm mt-2">
+        Gửi bình luận
+      </button>
     </div>
+
+    <!-- DANH SÁCH BÌNH LUẬN -->
+    <ul class="list-group">
+      <li class="list-group-item">
+        <strong>Nguyễn Thành Minh</strong>
+        <span class="text-muted small"> · 10 phút trước</span>
+        <p class="mb-0">
+          Mình cũng đang duy trì chạy bộ mỗi sáng, cảm thấy khỏe hơn hẳn 👍
+        </p>
+      </li>
+
+      <li class="list-group-item">
+        <strong>Ngô Phước Thịnh</strong>
+        <span class="text-muted small"> · 1 giờ trước</span>
+        <p class="mb-0">
+          Bài viết rất hữu ích, cảm ơn bạn đã chia sẻ thói quen tốt này.
+        </p>
+      </li>
+    </ul>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'PostDetail',
-
-  data() {
-    return {
-      post: {
-        title: 'Phương pháp tập Pilates giúp hồi sinh cột sống',
-        content:
-          'Pilates là phương pháp tập luyện giúp cải thiện sức khỏe cột sống, tăng sự dẻo dai và giảm đau lưng hiệu quả.',
-        image: '/images/tap-piltes.jpg'
-      },
-
-      newComment: '',
-
-      comments: [
-        { author: 'Bình An', text: 'Bài viết rất hữu ích' },
-        { author: 'Bình An', text: 'Cảm ơn những chia sẻ bổ ích' }
-      ]
-    }
-  },
-
-  methods: {
-    addComment() {
-      if (this.newComment.trim() === '') return
-
-      this.comments.push({
-        author: 'Khách',
-        text: this.newComment
-      })
-
-      this.newComment = ''
-    }
-  }
-}
-</script>

@@ -1,36 +1,37 @@
 <template>
   <div class="app-wrapper">
-    <AppHeader />
+    <Header />
 
-    <main class="main-content">
+    <main class="content container my-4">
       <router-view />
     </main>
 
-    <AppFooter />
+    <Footer />
   </div>
 </template>
 
-<script>
-import AppHeader from '@/components/AppHeader.vue'
-import AppFooter from '@/components/AppFooter.vue'
-
-export default {
-  components: {
-    AppHeader,
-    AppFooter
-  }
-}
+<script setup>
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
 </script>
 
 <style>
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#app {
+  height: 100%;
+}
+
 .app-wrapper {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.main-content {
+.content {
   flex: 1;
-  padding: 20px 0;
 }
 </style>

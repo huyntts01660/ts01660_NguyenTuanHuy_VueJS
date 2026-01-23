@@ -1,29 +1,11 @@
 <template>
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <h4 class="mb-3">Đăng ký tài khoản</h4>
-
-      <div class="mb-3">
-        <label class="form-label">Họ và tên</label>
-        <input type="text" class="form-control" placeholder="Nhập họ tên">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control" placeholder="Nhập email">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Mật khẩu</label>
-        <input type="password" class="form-control">
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Xác nhận mật khẩu</label>
-        <input type="password" class="form-control">
-      </div>
-
-      <button class="btn btn-success w-100">Đăng ký</button>
-    </div>
+  <div class="d-flex justify-content-center align-items-center">
+      <h1 class="fw-bold">Đăng nhập</h1>
   </div>
+  <form class="w-50 mx-auto">
+    <input class="form-control mb-3" placeholder="Họ tên" />
+    <input class="form-control mb-3" placeholder="Email" />
+    <input type="password" class="form-control mb-3" placeholder="Mật khẩu" />
+    <button class="btn btn-primary w-100">Đăng ký</button>
+  </form>
 </template>
