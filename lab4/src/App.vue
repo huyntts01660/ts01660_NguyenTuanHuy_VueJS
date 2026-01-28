@@ -1,6 +1,7 @@
 <script setup>
-import Bai4 from './components/Bai4.vue'
-// import Bai3 from './components/Bai3.vue'
+ import Bai4 from './components/Bai4.vue'
+// import Bai3 from './components/Bai3.vue';
+// import Demo from './components/Demo.vue';
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import Bai4 from './components/Bai4.vue'
     <Bai3 />
   </div> -->
   <Bai4 />
+  <!-- <Demo /> -->
 </template>
 
 <style scoped>
