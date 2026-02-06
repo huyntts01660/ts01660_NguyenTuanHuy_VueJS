@@ -1,63 +1,101 @@
-<template>
-  <div class="container my-4">
-    <!-- TIÊU ĐỀ -->
-    <h2 class="mb-3">
-      Chạy bộ mỗi sáng giúp cơ thể khỏe mạnh hơn
-    </h2>
+<script setup>
+import { ref, onMounted } from "vue"
+import { useRoute } from "vue-router"
+import axios from "axios"
+import { getCommentsByPost, createComment } from "@/services/comment.service"
 
-    <!-- ẢNH BÀI VIẾT -->
+const route = useRoute()
+
+const currentUser = ref(
+  JSON.parse(localStorage.getItem("user"))
+)
+
+const post = ref(null)
+const comments = ref([])
+const content = ref("")
+
+const loadPost = async () => {
+  const res = await axios.get(
+    `http://localhost:3000/posts/${route.params.id}`
+  )
+  post.value = res.data
+}
+
+const loadComments = async () => {
+  comments.value = await getCommentsByPost(route.params.id)
+}
+
+const handleComment = async () => {
+  if (!content.value || !currentUser.value) return
+
+  await createComment({
+    postId: post.value.id,
+    userId: currentUser.value.id,
+    author: currentUser.value.name,
+    content: content.value,
+    createdAt: new Date().toISOString()
+  })
+
+  content.value = ""
+  loadComments()
+}
+
+onMounted(() => {
+  loadPost()
+  loadComments()
+})
+</script>
+
+
+<template>
+  <div class="container my-4" v-if="post">
+    <!-- TIÊU ĐỀ -->
+    <h2 class="mb-3">{{ post.title }}</h2>
+
+    <!-- ẢNH -->
     <img
-      src="/public/images/chaybo.jpg"
-      class="img-fluid mb-4 rounded"
-      alt="Chạy bộ buổi sáng"
+      v-if="post.image"
+      :src="post.image"
+      class="img-fluid rounded mb-4"
+      style="max-height: 350px; object-fit: cover"
     />
 
     <!-- NỘI DUNG -->
-    <p>
-      Chạy bộ vào buổi sáng là một thói quen tốt giúp tăng cường sức khỏe,
-      cải thiện tinh thần và giúp cơ thể tràn đầy năng lượng cho cả ngày dài.
-      Chỉ cần 20–30 phút mỗi sáng, bạn đã có thể cảm nhận được sự thay đổi tích cực
-      về thể lực và tinh thần.
-    </p>
-
-    <p>
-      Ngoài ra, chạy bộ còn giúp cải thiện hệ tim mạch, hỗ trợ giảm cân và
-      nâng cao chất lượng giấc ngủ. Điều quan trọng là duy trì thói quen đều đặn
-      và lựa chọn thời gian, cường độ phù hợp với bản thân.
-    </p>
+    <p class="lh-lg">{{ post.content }}</p>
 
     <hr />
 
-    <!-- BÌNH LUẬN -->
+    <!-- FORM BÌNH LUẬN -->
     <h5 class="mb-3">💬 Bình luận</h5>
 
-    <div class="mb-3">
+    <div v-if="currentUser" class="mb-3">
       <textarea
+        v-model="content"
         class="form-control"
         rows="3"
         placeholder="Chia sẻ cảm nhận của bạn..."
       ></textarea>
-      <button class="btn btn-primary btn-sm mt-2">
+      <button class="btn btn-primary btn-sm mt-2" @click="handleComment">
         Gửi bình luận
       </button>
     </div>
 
-    <!-- DANH SÁCH BÌNH LUẬN -->
-    <ul class="list-group">
-      <li class="list-group-item">
-        <strong>Nguyễn Thành Minh</strong>
-        <span class="text-muted small"> · 10 phút trước</span>
-        <p class="mb-0">
-          Mình cũng đang duy trì chạy bộ mỗi sáng, cảm thấy khỏe hơn hẳn 👍
-        </p>
-      </li>
+    <p v-else class="text-muted">
+      👉 Vui lòng đăng nhập để bình luận
+    </p>
 
-      <li class="list-group-item">
-        <strong>Ngô Phước Thịnh</strong>
-        <span class="text-muted small"> · 1 giờ trước</span>
-        <p class="mb-0">
-          Bài viết rất hữu ích, cảm ơn bạn đã chia sẻ thói quen tốt này.
-        </p>
+    <!-- DANH SÁCH BÌNH LUẬN -->
+    <ul class="list-group mt-3">
+      <li
+        v-for="c in comments"
+        :key="c.id"
+        class="list-group-item"
+      >
+        <strong>{{ c.author }}</strong>
+        <span class="text-muted small">
+          · {{ new Date(c.createdAt).toLocaleString() }}
+        </span>
+        <p class="mb-0 mt-1">{{ c.content }}</p>
       </li>
     </ul>
   </div>

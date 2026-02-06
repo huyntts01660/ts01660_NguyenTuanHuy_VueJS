@@ -12,6 +12,11 @@
 
 <script setup>
 import Header from './components/Header.vue'
+import { ref, provide } from "vue"
+
+const currentUser = ref(JSON.parse(localStorage.getItem("user")))
+
+provide("currentUser", currentUser)
 import Footer from './components/Footer.vue'
 </script>
 
